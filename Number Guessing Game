@@ -1,0 +1,245 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+
+public class Game2 extends JFrame 
+{
+        JTextField guess, bestscore, totalguess,Time;
+        JButton giveupbutton,playagainbutton,guessbutton;
+    int Count = 0;
+	int scoreCount=0;
+	int elapsedTime=0;
+	int minutes=0;
+	int seconds=0;
+	int temp=0;
+	String second_string=String.format("%02d",seconds);
+	String minute_string=String.format("%02d",minutes);
+        JLabel inputlabel,guesslabel,trylabel,bestscorelabel,totalguesslabel,ILabel1,TLabel;
+        JPanel P1;
+        Timer timer;
+        ButtonListener buttonListener;
+        ButtonListener2 buttonListener2;
+        ButtonListener3 buttonListener3;
+    
+    
+        int rand=(int) (Math.random()*100);
+        int count=0;
+    Game2()
+    {
+        Container c = getContentPane();
+        c.setLayout(null);
+        c.setBackground(Color.BLACK);
+    
+        ImageIcon img = new ImageIcon("D:\\MY DOC\\Codesoft\\imgFile\\Guess.png");
+        ILabel1 = new JLabel(img);
+        ILabel1.setBounds(50,100,img.getIconWidth(),img.getIconHeight());
+    
+        P1 = new JPanel();
+        P1.setLayout(null);
+        P1.setBackground(Color.PINK);
+        P1.setBounds(0,0,650,1000);
+    
+        guesslabel = new JLabel("Guess the Number");
+        guesslabel.setForeground(Color.PINK);
+        guesslabel.setFont(new Font("times new roman",Font.BOLD,52));
+        guesslabel.setBounds(900,0,600,100);
+
+
+        inputlabel=new JLabel("Enter a number between 1-100");
+        inputlabel.setForeground(Color.WHITE);
+        inputlabel.setFont(new Font("Roboto",Font.PLAIN,24));
+        inputlabel.setBounds(930,80,400,100);
+
+        trylabel = new JLabel("You Have To Try Atleast Once by Pressing the Guess Button");
+        trylabel.setFont(new Font("Roboto",Font.PLAIN,24));
+        trylabel.setForeground(Color.WHITE);
+        trylabel.setBounds(800,200,800,100);
+
+            guess = new JTextField(10);
+            guess.setBounds(1050,160,100,60);
+            guess.setFont(new Font("Arial", Font.PLAIN, 38));
+            guess.setForeground(Color.BLUE);
+            guess.setBackground(Color.gray);
+        
+            Time = new JTextField(10);
+            Time.setBounds(1100,460,100,60);
+            Time.setFont(new Font("Arial", Font.PLAIN, 34));
+            Time.setForeground(Color.BLUE);
+            Time.setBackground(Color.gray);
+        
+            TLabel = new JLabel(" Total Time Taken");
+            TLabel.setFont(new Font("Roboto",Font.PLAIN,28));
+            TLabel.setForeground(Color.white);
+            TLabel.setBounds(800,480,300,25);
+        
+            bestscore = new JTextField(10);
+            bestscore.setFont(new Font("Arial", Font.PLAIN, 18));
+            bestscore.setForeground(Color.BLUE);
+            bestscore.setBackground(Color.gray);
+            bestscore.setBounds(1250,160,50,25);
+
+            bestscorelabel = new JLabel(" Your Score");
+            bestscorelabel.setFont(new Font("Roboto",Font.PLAIN,18));
+            bestscorelabel.setForeground(Color.BLUE);
+            bestscorelabel.setBounds(1310,160,300,25);
+
+            totalguess = new JTextField(10);
+            totalguess.setFont(new Font("Arial", Font.PLAIN, 18));
+            totalguess.setForeground(Color.BLUE);
+            totalguess.setBackground(Color.gray);
+            totalguess.setBounds(1250,190,50,25);
+    
+    
+            totalguesslabel = new JLabel("Guesses Count");
+            totalguesslabel.setFont(new Font("Roboto",Font.PLAIN,18));
+            totalguesslabel.setForeground(Color.BLUE);
+            totalguesslabel.setBounds(1310,190,300,25);
+    
+    
+        guessbutton =new JButton("Check Your Guess");
+        guessbutton.setBounds(1000,280,200,50);
+        guessbutton.setBackground(Color.LIGHT_GRAY);
+        buttonListener = new ButtonListener();
+        guessbutton.addActionListener(buttonListener);
+    
+    
+        giveupbutton = new JButton("Give up!");
+        giveupbutton.setBounds(1130,360,200,50);
+        giveupbutton.setBackground(Color.LIGHT_GRAY);
+        buttonListener2 = new ButtonListener2();
+        giveupbutton.addActionListener(buttonListener2);
+    
+    
+        playagainbutton = new JButton("Play Again!");
+        playagainbutton.setBounds(860,360,200,50);
+        playagainbutton.setBackground(Color.LIGHT_GRAY);
+        buttonListener3 = new ButtonListener3();
+        playagainbutton.addActionListener(buttonListener3);
+        
+            add(guesslabel);
+            add(inputlabel);
+            add(trylabel);
+            add(guess);
+            add(bestscore);
+            add(bestscorelabel);
+            add(totalguess);
+            add(totalguesslabel);
+            add(guessbutton);
+            add(giveupbutton);
+            add(playagainbutton);
+            add(TLabel);
+            add(Time);
+            add(P1);
+            P1.add(ILabel1);
+            
+        
+        
+        bestscore.setEditable(false);
+        totalguess.setEditable(false);
+        setTitle("GUESS THE NUMBER");
+        setSize(1600,1000);
+        setVisible(true);
+        countDownTimer();
+		//Starting timer
+		timer.start();
+    }
+
+    class ButtonListener implements ActionListener
+    {
+        int bestScore=100;
+        public void actionPerformed(ActionEvent e)
+        { 
+            int a = Integer.parseInt(guess.getText());
+            count=count+1;
+            if(a<rand)
+            {
+                JOptionPane.showMessageDialog(guessbutton,a+"\t \t"+": Number Is low, Try Again","Try Again",0);
+            }
+            else if(a>rand)
+            {
+                JOptionPane.showMessageDialog(guessbutton,a+"\t \t"+": Number Is High, Try Again","Try again",0);
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(guessbutton,"Congratulations"+"\n"+"You Won"+"\n"+"Your Guess is Correct :"+"\t \t"+rand,"GAME OVER",0);
+                timer.stop();
+                if(count<bestScore)
+                {
+                    bestScore=count;
+                    bestscore.setText(bestScore+"");
+                }
+                else {
+                    bestscore.setText("" + bestScore);
+                }
+                guess.setEditable(false);
+            }
+            guess.requestFocus();
+            guess.selectAll();
+            totalguess.setText(count+"");
+        }
+    }
+            
+ 
+            class ButtonListener2 implements ActionListener
+            {
+                public void actionPerformed(ActionEvent e)
+                {
+                    totalguess.setText("");
+                    JOptionPane.showMessageDialog(giveupbutton,"The correct answer is : "+rand+"!!","GAME OVER",0);
+                    timer.stop();
+                    guess.setText("");
+                    guess.setEditable(false);
+                }
+            }
+        
+            class ButtonListener3 implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            rand=(int) (Math.random()*100);
+            guess.setText("");
+            elapsedTime=0;
+			seconds=0;
+			minutes=0;
+			timer.start();
+			totalguess.setText("");
+			totalguess.setText("");
+			guess.setText("");
+			guess.setEnabled(true);
+			guess.getCaret().setVisible(true);
+            totalguess.setText("");
+            JOptionPane.showMessageDialog(playagainbutton,"*****RESTARTED*****","START",0);
+            totalguess.setText("");
+            count=0;
+            guess.setEditable(true);
+            guess.requestFocus();
+        }
+    }
+        
+
+
+//Code for displaying Timer
+public void countDownTimer()
+{
+    timer=new Timer(1000, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) 
+        {
+            elapsedTime=elapsedTime+1000;
+            minutes=(elapsedTime/60000)%60;
+            seconds=(elapsedTime/1000)%60;
+            second_string=String.format("%02d",seconds);
+            minute_string=String.format("%02d",minutes);
+            Time.setText(minute_string+":"+second_string);
+        }
+    });
+}
+public static void main(String[] args) 
+{
+    new Game2();
+}
+}
