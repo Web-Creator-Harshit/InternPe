@@ -1,0 +1,349 @@
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
+import java.util.Random;
+import javax.swing.*;
+
+public class Rock extends JFrame
+{
+    JLabel HL,NL,NNL,ILabel1,rndm,win,loss,status,option,col,you,WL,LL;
+    JPanel P1;
+    Button PB,HB,QB;
+    JButton rock,paper,scissor,again;
+	ImageIcon imgW,imgL;
+
+    Rock()
+    {
+        //Adding Labels
+        Container c = getContentPane();
+        c.setLayout(null);
+        c.setBackground(Color.gray);
+    
+        ImageIcon img = new ImageIcon("D:\\MY DOC\\Codesoft\\imgFile\\RPS.jpg");
+        ILabel1 = new JLabel(img);
+        ILabel1.setBounds(50,250,img.getIconWidth(),img.getIconHeight());
+    
+        HL = new JLabel(" ! Let's Play ! ");
+        HL.setForeground(Color.BLACK);
+        HL.setFont(new Font("times new roman",Font.BOLD,56));
+        HL.setBounds(600,0,600,100);
+    
+        P1 = new JPanel();
+        P1.setLayout(null);
+        P1.setBackground(Color.decode("#87CEEB"));
+        P1.setBounds(0,0,650,1000);
+    
+        NL = new JLabel(" Scissor Paper Rock ");
+        NL.setForeground(Color.BLACK);
+        NL.setFont(new Font("times new roman",Font.BOLD,56));
+        NL.setBounds(530,100,600,100);
+    
+        NNL = new JLabel(" Scissor Paper Rock ");
+        NNL.setForeground(Color.BLACK);
+        NNL.setFont(new Font("times new roman",Font.BOLD,56));
+        NNL.setBounds(530,100,600,100);
+    
+        //Adding Buttons
+        PB = new Button("PLAY");
+        PB.setBounds(660,300,200,50);
+        PB.setForeground(Color.WHITE);
+        PB.setBackground(Color.decode("#a000c8"));
+        PB.setFont(new Font("Roboto",Font.ITALIC, 28));
+		PB.addActionListener((ActionEvent e) ->
+        {
+            GameWindow();
+        });
+    
+        HB = new Button("HELP");
+        HB.setBounds(660,400,200,50);
+        HB.setForeground(Color.WHITE);
+        HB.setBackground(Color.decode("#a000c8"));
+        HB.setFont(new Font("Roboto",Font.ITALIC, 28));
+        HB.addActionListener((ActionEvent e) ->
+        {
+            HelpWindow();
+        });
+    
+        QB = new Button("QUIT");
+        QB.setBounds(660,500,200,50);
+        QB.setForeground(Color.WHITE);
+        QB.setBackground(Color.decode("#a000c8"));
+        QB.setFont(new Font("Roboto",Font.ITALIC, 28));
+		QB.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+	
+    
+    
+        add(HL);
+        add(P1);
+        add(NL);
+        P1.add(NNL);
+        P1.add(ILabel1);
+        add(PB);
+        add(HB);
+        add(QB);
+    
+        setTitle("Scissor Paper Rock Game");
+        setSize(1600,1000);
+        setVisible(true);
+    }
+        
+        
+    public void GameWindow() 
+    {
+		JFrame frame = new JFrame();
+        JButton rock,paper,scissor,again;
+    
+		//--------------------BACK BUTTON-------------------------
+		JLabel back = new JLabel("< BACK");
+		back.setBounds(20, 20, 150, 30);
+		back.setForeground(Color.decode("#FFFFFF"));
+		back.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		frame.add(back);
+		back.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				frame.dispose();
+			}
+		});
+        
+        you = new JLabel("YOU                   COMPUTER");
+		you.setBounds(265, 150, 300, 50);
+		you.setForeground(Color.decode("#FFFFFF"));
+		you.setFont(new Font("Times New Roman",Font.PLAIN,20));
+		win = new JLabel("0");
+		win.setBounds(285, 205, 150, 50);
+		win.setForeground(Color.decode("#FFFFFF"));
+		win.setFont(new Font("Times New Roman",Font.PLAIN,20));
+		col = new JLabel(":");
+		col.setBounds(340, 205, 150, 50);
+		col.setForeground(Color.decode("#FFFFFF"));
+		col.setFont(new Font("Times New Roman",Font.PLAIN,20));
+		loss = new JLabel("0");
+		loss.setBounds(415, 205, 150, 50);
+		loss.setForeground(Color.decode("#FFFFFF"));
+		loss.setFont(new Font("Times New Roman",Font.PLAIN,20));
+		frame.add(win);
+		frame.add(loss);
+		frame.add(col);
+		frame.add(you);
+    
+    
+        		//---------------STATUS------------------------------------
+				imgW = new ImageIcon("D:\\MY DOC\\Codesoft\\imgFile\\you-star-good-job.gif");
+				WL = new JLabel(imgW);
+				WL.setBounds(300,300,imgW.getIconWidth(),imgW.getIconHeight());
+				frame.add(WL);
+				WL.setVisible(false);
+			
+			
+				imgL = new ImageIcon("D:\\MY DOC\\Codesoft\\imgFile\\oyun-bitti-loser.gif");
+				LL = new JLabel(imgL);
+				LL.setBounds(300,300,imgW.getIconWidth(),imgW.getIconHeight());
+				frame.add(LL);
+				LL.setVisible(false);
+		//---------------------------------------------------------
+		
+		//------------------OPTION TEXT----------------------------
+		option = new JLabel();
+		option.setBounds(350, 300, 150, 30);
+		option.setForeground(Color.decode("#FFFFFF"));
+		option.setFont(new Font("Times New Roman", Font.ITALIC, 20));
+		frame.add(option);
+		//----------------------------------------------------------
+		
+		//------------------RANDOM TEXT--------------------------------
+		rndm = new JLabel();
+		rndm.setBounds(350, 100, 150, 30);
+		rndm.setForeground(Color.decode("#FFFFFF"));
+		rndm.setFont(new Font("Times New Roman", Font.ITALIC, 20));
+		frame.add(rndm);
+		//--------------------------------------------------------------
+		
+		//-----------------ROCK BUTTON----------------------------------
+		rock = new JButton("ROCK");
+		rock.setBounds(100, 575, 150, 50);
+		rock.setFont(new Font("Times New Roman",Font.ITALIC,18));
+		rock.setForeground(Color.decode("#e5dfe8"));
+		rock.setBackground(Color.decode("#373737"));
+		frame.add(rock);
+		rock.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				option.setText("ROCK");
+				check(operation(0));
+			}
+		});
+		//-------------------------------------------------------
+		
+		//---------------PAPER BUTTON--------------------------------
+		paper = new JButton("PAPER");
+		paper.setBounds(350, 575, 150, 50);
+		paper.setFont(new Font("Times New Roman",Font.ITALIC,18));
+		paper.setForeground(Color.decode("#e5dfe8"));
+		paper.setBackground(Color.decode("#373737"));
+		frame.add(paper);
+		paper.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				option.setText("PAPER");
+				check(operation(1));
+			}
+		});
+		//------------------------------------------------------------
+		
+		//--------------------SCISSORS BUTTON-------------------------
+		scissor = new JButton("SCISSORS");
+		scissor.setBounds(600, 575, 150, 50);
+		scissor.setFont(new Font("Times New Roman",Font.ITALIC,18));
+		scissor.setForeground(Color.decode("#e5dfe8"));
+		scissor.setBackground(Color.decode("#373737"));
+		frame.add(scissor);
+		scissor.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				option.setText("SCISSORS");
+				check(operation(2));
+			}
+		});
+    
+    
+        		//-----------PLAY AGAIN-----------------------------------------
+		again = new JButton("PLAY AGAIN");
+		again.setBounds(350, 675, 150, 50);
+		again.setFont(new Font("Times New Roman",Font.ITALIC,18));
+		again.setForeground(Color.decode("#e5dfe8"));
+		again.setBackground(Color.decode("#373737"));
+		again.setVisible(true);
+		frame.add(again);
+		again.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				GameWindow();
+			}
+		});
+		//-----------------
+		frame.setSize(850,850);
+		frame.setResizable(false);
+		frame.setLayout(null);
+		frame.setUndecorated(true);
+		frame.setLocationRelativeTo(null);  
+		frame.setVisible(true);
+		frame.setFocusable(true);
+		frame.getContentPane().setBackground(Color.decode("#000000"));
+    }
+	private int operation(int op) {
+		Random random = new Random();
+		int k = random.nextInt(3);
+		if(k==0)
+			rndm.setText("ROCK");
+		else if(k==1)
+			rndm.setText("PAPER");
+		else
+			rndm.setText("SCISSORS");
+		if(op==k)
+			return 0;
+		else if(k==0 && op==2)
+			return -1;
+		else if(k==2 && op==0)
+			return 1;
+		else if(k<op)
+			return 1;
+		else
+			return -1;
+	}
+	//-------------------------------------------------------------------------------
+	
+	int won = 0, lost = 0;
+	//--------UPDATING SCORES AND CHECKING STATUS---------------------------
+	private void check(int i) {
+		if(i==-1)
+			lost++;
+		else if(i==1)
+			won++;
+		win.setText(String.valueOf(won));
+		loss.setText(String.valueOf(lost));
+		if(won == 5) {
+			rndm.setVisible(false);
+			option.setVisible(false);
+			win.setBounds(285, 205, 150, 50);
+			col.setBounds(340, 205, 150, 50);
+			loss.setBounds(415, 205, 150, 50);
+			WL.setVisible(true);
+			again.setVisible(true);
+			rock.setVisible(false);
+			paper.setVisible(false);
+			scissor.setVisible(false);
+			you.setVisible(false);
+		}
+		else if(lost == 5) {
+			rndm.setVisible(false);
+			option.setVisible(false);
+			win.setBounds(285, 205, 150, 50);
+			col.setBounds(340, 205, 150, 50);
+			loss.setBounds(415, 205, 150, 50);
+			LL.setVisible(true);
+			again.setVisible(true);
+			rock.setVisible(false);
+			paper.setVisible(false);
+			scissor.setVisible(false);
+			you.setVisible(false);
+        }
+    }
+        
+	public void HelpWindow()
+	{
+		JFrame frame = new JFrame();
+		Font text = new Font("Times New Roman", Font.PLAIN, 30);
+		
+		//--------------------BACK BUTTON-------------------------
+		JLabel back = new JLabel("< BACK");
+		back.setBounds(20, 20, 150, 30);
+		back.setForeground(Color.decode("#FFFFFF"));
+		back.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		frame.add(back);
+		back.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				frame.dispose();
+			}
+		});
+		//----------------------------------------------------------
+		
+		//---------------TEXT---------------------------------------
+		JLabel txt = new JLabel();
+		txt.setFont(text);
+		txt.setBounds(200, 200, 430, 370);
+		String str = "<html>RULES :<br/> 1. Paper defeats rock.<br/>2. Rock defeats scissors.<br/>3. Scissors defeats paper.<br/><br/>The first to score 5 will win the game."
+				+ "The status will be show in the screen. You can use the play again button to play again or back to return back to main menu.</html>";
+		txt.setText(str);
+		txt.setForeground(Color.decode("#FFFFFF"));
+		frame.add(txt);
+		//----------------------------------------------------------
+		
+		//-----------------FRAME-----------------------------------
+		frame.setSize(850,850);
+		frame.setResizable(false);
+		frame.setLayout(null);
+		frame.setUndecorated(true);
+		frame.setLocationRelativeTo(null);  
+		frame.setVisible(true);
+		frame.setFocusable(true);
+		frame.getContentPane().setBackground(Color.decode("#000000"));
+		//--------------------------------------------------------------
+		
+	}
+
+
+    public static void main(String[] args) 
+    {
+        new Rock();
+    }
+}
